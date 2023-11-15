@@ -31,6 +31,10 @@ const tabChange = () => {
   reqData.value.pageSize=1
   getGoodList()
 }
+
+const load = () => {
+  console.log('加载更多数据')
+}
 </script>
 
 <template>
@@ -50,7 +54,7 @@ const tabChange = () => {
         <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
-      <div class="body">
+      <div class="body" v-infinite-scroll="load">
         <!-- 商品列表-->
         <GoodsItem v-for="goods in goodList" :goods="goods"/>
       </div>

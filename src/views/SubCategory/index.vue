@@ -13,27 +13,33 @@ const getCategoryData = async () => {
 }
 onMounted(() => getCategoryData())
 
-const goodList=ref([])
-const reqData=ref({
-  categoryId:route.params.id,
-  page:1,
-  pageSize:20,
-  sortField:'publishTime'
+const goodList = ref([])
+const reqData = ref({
+  categoryId: route.params.id,
+  page: 1,
+  pageSize: 20,
+  sortField: 'publishTime'
 })
-const getGoodList =async () => {
-  const res =await getSubCategoryApi(reqData.value);
-  goodList.value=res.result.items
+const getGoodList = async () => {
+  const res = await getSubCategoryApi(reqData.value);
+  goodList.value = res.result.items
 }
-onMounted(()=>getGoodList())
+onMounted(() => getGoodList())
 
 const tabChange = () => {
-  console.log('tab切换了',reqData.value.sortField)
-  reqData.value.pageSize=1
+  console.log('tab切换了', reqData.value.sortField)
+  reqData.value.pageSize = 1
   getGoodList()
 }
-
-const load = () => {
+const disabled=ref(false)
+const load = async () => {
   console.log('加载更多数据')
+  reqData.value.page++
+  const res = await getSubCategoryApi(reqData.value)
+  goodList.value = [...goodList.value, ...res.result.items]
+  if (res.result.items.length === 0){
+    disabled.value=true
+  }
 }
 </script>
 
@@ -43,9 +49,9 @@ const load = () => {
     <div class="bread-container">
       <el-breadcrumb separator=">">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: `/category/${categoryData.parentId}`}">{{categoryData.parentName}}
+        <el-breadcrumb-item :to="{ path: `/category/${categoryData.parentId}`}">{{ categoryData.parentName }}
         </el-breadcrumb-item>
-        <el-breadcrumb-item>{{categoryData.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ categoryData.name }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="sub-container">

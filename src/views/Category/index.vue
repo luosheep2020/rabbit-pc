@@ -4,8 +4,8 @@ import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import {getTopCategoryApi} from "@/apis/category.js";
 
 import GoodsItem from "@/views/Home/components/GoodsItem.vue";
-import {useBanner} from "@/views/Category/composables/useBanner.js";
-import {useCategory} from "@/views/Category/composables/useCategory.js";
+import {useBanner} from "@/composables/useBanner.js";
+import {useCategory} from "@/composables/useCategory.js";
 
 const {bannerList} = useBanner()
 const {categoryData} =useCategory()
